@@ -5,6 +5,9 @@ import { LoginRoutingModule } from './login-routing.module';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -14,7 +17,9 @@ import { ButtonModule } from 'primeng/button';
     LoginRoutingModule,
     CardModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
   ]
 })
 export class LoginModule { }

@@ -1,0 +1,164 @@
+
+<div class="p-grid">
+    <p-card >
+        <div class="row">
+            <div style="margin-bottom: 1rem;">
+                <button 
+                pButton 
+                pRipple 
+                label="Create new task" 
+                icon="pi pi-plus" 
+                class="p-button-raised p-button-secondary" 
+                type="button"
+                (click)="showDialog()">
+                </button>
+                <button 
+                pButton 
+                pRipple 
+                label="Voltar"  
+                class="p-button-raised p-button-warning" 
+                type="button"
+                (click)="goBack()"
+                style="margin-left: 1rem;">
+                </button>
+            </div>
+            
+        </div>
+        <div class="card" style="padding: 1rem; background-color: rgb(182, 182, 182);">
+            <div class="flex">
+                <div 
+                class="col" 
+                pDroppable="backlog" 
+                (onDragEnd)="dragEnd($event)"
+                (onDragEnter)="dropPlace($event, 'backlog')">
+                    <h4>Backlog</h4>
+                    <div 
+                    id="backlog" 
+                    *ngFor="let b of backlog" 
+                    pDraggable="backlog" 
+                    pDroppable="backlog" 
+                    (onDragStart)="dragStart($event, b, 'backlog')" 
+                    (onDragEnd)="dragEnd($event)" 
+                    (onDragEnter)="dropPlace($event, 'backlog')" 
+                    style="margin: 0.5rem;">   
+                        <p-card [header]="b.title">
+                            {{b.description}}
+                            <ng-template pTemplate="footer">
+                                {{b.responsable}}  
+                            </ng-template>
+                        </p-card>
+                    </div>
+                </div>
+                <p-divider layout="vertical" ></p-divider>
+                <div 
+                class="col" 
+                pDroppable="todo" 
+                (onDragEnd)="dragEnd($event)"
+                (onDragEnter)="dropPlace($event, 'todo')">
+                    <h4>To do</h4>
+                    <div id="todo" 
+                    *ngFor="let t of todo" 
+                    pDraggable="todo" 
+                    pDroppable="todo" 
+                    (onDragStart)="dragStart($event, t, 'todo')" 
+                    (onDragEnd)="dragEnd($event)" 
+                    (onDragEnter)="dropPlace($event, 'todo')"
+                    style="margin: 0.5rem;">
+                        <p-card  [header]="t.title">
+                            {{t.description}}
+                            <ng-template pTemplate="footer">
+                                {{t.responsable}}  
+                            </ng-template>
+                        </p-card> 
+                    </div>
+                </div>
+                
+                <p-divider layout="vertical" ></p-divider>
+                <div 
+                class="col" 
+                pDroppable="doing" 
+                (onDragEnd)="dragEnd($event)"
+                (onDragEnter)="dropPlace($event, 'doing')">
+                    <h4>Doing</h4>
+                    <div 
+                    id="doing" 
+                    *ngFor="let d of doing" 
+                    pDraggable="doing" 
+                    pDroppable="doing" 
+                    (onDragStart)="dragStart($event, d, 'doing')" 
+                    (onDragEnd)="dragEnd($event)" 
+                    (onDragEnter)="dropPlace($event, 'doing')"
+                    style="margin: 0.5rem;">
+                        <p-card  [header]="d.title">
+                            {{d.description}}
+                            <ng-template pTemplate="footer">
+                                {{d.responsable}}  
+                            </ng-template>
+                        </p-card>
+                    </div>
+                </div>
+    
+                    <p-divider layout="vertical" ></p-divider>
+                <div 
+                class="col" 
+                pDroppable="done" 
+                (onDragEnter)="dropPlace($event, 'done')"
+                (onDragEnter)="dropPlace($event, 'done')">
+                    <h4>Done</h4>
+                    <div 
+                    id="done" 
+                    *ngFor="let don of done" 
+                    pDraggable="done" 
+                    pDroppable="done" 
+                    (onDragStart)="dragStart($event, don, 'done')" 
+                    (onDragEnd)="dragEnd($event)" 
+                    (onDragEnter)="dropPlace($event, 'done')" 
+                    style="margin: 0.5rem;">
+                        <p-card  [header]="don.title">
+                            {{don.description}}
+                            <ng-template pTemplate="footer">
+                                {{don.responsable}}  
+                            </ng-template>
+                        </p-card>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </p-card>
+</div>
+
+    
+<p-dialog header="Create New Task" [(visible)]="display" [modal]="true" [style]="{width: '30vw'}">
+    <form [formGroup]="form" (ngSubmit)="createNewTask()">
+        <span class="p-float-label" style="margin-top: 1.5rem; margin-bottom: 2rem;">
+            <input id="float-input" type="text" pInputText formControlName="title" style="width: 100%" required> 
+            <label for="float-input">Title</label>
+        </span>
+        <span class="p-float-label" style="margin-bottom: 2rem;">
+            <textarea [rows]="3" [cols]="30" pInputTextarea formControlName="description" style="width: 100%" required></textarea>
+            <label for="float-input">Description</label>
+        </span>
+        <span class="p-float-label" style="margin-bottom: 2rem;">
+            <input id="float-input" type="text" pInputText formControlName="responsable" style="width: 100%" required> 
+            <label for="float-input">Responsable</label>
+        </span>
+        <span class="p-float-label" style="margin-bottom: 2rem;">
+            <p-inputMask id="float-input" mask="99:99" formControlName="hours" style="width: 100%"></p-inputMask>
+            <label for="float-input">Hours</label>
+        </span>
+        <div class="row">
+            <div >
+                <p-button 
+                pRipple 
+                label="Save Task" 
+                icon="pi pi-save" 
+                class="p-button-raised p-button-secondary" 
+                type="submit"
+                (click)="createNewTask()"
+                [disabled]="form.invalid">
+                </p-button>
+            </div>
+        </div>
+    </form>
+</p-dialog>
+
